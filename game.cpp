@@ -102,18 +102,18 @@ void Game::pollEvent()
         switch(this->ev.type)
         {
             case sf::Event::Closed:
-            this->window->close();
+                
             break;
 
             case sf::Event::KeyPressed:
-            if (this->ev.key.code == sf::Keyboard::Escape)
-                this->window->close();
+                if (this->ev.key.code == sf::Keyboard::Escape)
+                    this->window->close();
 
-            if(this->ev.key.code == sf::Keyboard::Enter && Scene == 0)
-                getTileset();
-            
-            if(this->ev.key.code == sf::Keyboard::Q && Scene == 2)
-                Scene = 1;
+                if(this->ev.key.code == sf::Keyboard::Enter && Scene == 0)
+                    getTileset();
+                
+                if(this->ev.key.code == sf::Keyboard::Q && Scene == 2)
+                    Scene = 1;
             break;
 
             case sf::Event::MouseButtonPressed:
@@ -259,18 +259,8 @@ void Game::getTileset()
         left += tiles[i].width;
     }
 
-    Scene = 1;
 
-    /*
-    for(int i = 0; i < 256; i++)
-    {
-        std::cout << i << " Left: " << tiles[i].left << "\n";
-        std::cout << i << " Top: " << tiles[i].top << "\n";
-        std::cout << i << " width: " << tiles[i].width << "\n";
-        std::cout << i << " height: " << tiles[i].height << "\n"  << "\n";
-    }
-    */
-    
+    Scene = 1;    
 }
 
 void Game::checkTilesetClicked()
