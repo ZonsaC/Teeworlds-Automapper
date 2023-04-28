@@ -25,6 +25,7 @@ private:
     sf::RenderWindow* window;
     sf::VideoMode videoMode;
     sf::Event ev;
+    sf::Vector2i mousePosition;
     sf::Sprite Background;
     sf::Texture BackgroundTexture;
 
@@ -85,9 +86,10 @@ public:
     void textUpdate();
     sf::RectangleShape drawTileMatrix(sf::RectangleShape);
     void getTileset();
+    void checkTilesetClicked();
     void tiledImage();
     void tileHoverUpdate();
-    void showDebug();
+    void showCurrentAutomap();
     void exportAutomap();
     std::string getExportString(int, int, int, std::string);
     void update();

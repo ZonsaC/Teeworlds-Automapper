@@ -117,29 +117,18 @@ void Game::pollEvent()
             break;
 
             case sf::Event::MouseButtonPressed:
+
+                mousePosition = sf::Mouse::getPosition(*window);
+
                 if (ev.mouseButton.button == sf::Mouse::Left && Scene == 1)
                 {
-                    // Get the mouse position relative to the window
-                    sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
-                    sf::Vector2f mousePositionFloat = static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window));
-                    mousePositionFloat *= 1 /scale;
-
-                    for(int i = 0; i < 256; i++) if(tiles[i].contains(static_cast<sf::Vector2i>(mousePositionFloat))){
-
-                        //Tile Clicked                        
-                        clickedTile = tiles[i];
-                        curIndex = i;
-                        curRotation = 0;
-                        tiledImage(); 
-                        break;
-                    }
+                    checkTilesetClicked();
 
                     if(exportButton.getGlobalBounds().contains(mousePosition.x, mousePosition.y)) exportAutomap();
                     
                 } else
                 if(ev.mouseButton.button == sf::Mouse::Left && Scene == 2)
                 {
-                    sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
                     for(int i = 0; i < 4; i++)
                     {
                         if(rotatedTile[i].getGlobalBounds().contains(mousePosition.x, mousePosition.y))
@@ -284,6 +273,23 @@ void Game::getTileset()
     
 }
 
+void Game::checkTilesetClicked()
+{
+    // Get the mouse position relative to the window
+    sf::Vector2f mousePositionFloat = static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window));
+    mousePositionFloat *= 1 /scale;
+
+    for(int i = 0; i < 256; i++) if(tiles[i].contains(static_cast<sf::Vector2i>(mousePositionFloat))){
+
+        //Tile Clicked                        
+        clickedTile = tiles[i];
+        curIndex = i;
+        curRotation = 0;
+        tiledImage(); 
+        break;
+    }
+}
+
 void Game::tiledImage()
 {
     curTile = drawTileMatrix(curTile);
@@ -355,7 +361,7 @@ void Game::tileHoverUpdate()
     lClick = false;
 }
 
-void Game::showDebug()
+void Game::showCurrentAutomap()
 {
     std::cout << "------------------------------------------------------------------------" << "\n";
     for(int i = 0; i < 256; i++)
