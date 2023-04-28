@@ -6,4 +6,4 @@ compile:
 
 
 link:
-	g++ main.o game.o -o main -L src/lib -l sfml-graphics -l sfml-window -l sfml-system -static-libgcc
+	g++ main.o game.o -o main -L src/lib -l sfml-graphics -l sfml-window -l sfml-system -static -static-libgcc -static-libstdc++
