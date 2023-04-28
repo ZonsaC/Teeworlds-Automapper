@@ -17,12 +17,12 @@ void Game::initVariables()
     configFilePath = "Properties.cfg";
 
     hoverColor = sf::Color(96, 96, 96, 150);            //GREY
-    defaultColor = sf::Color(192, 192, 192, 150);       //WHITE
-    clickedColor[0] = sf::Color(230, 110, 110, 255);    //RED
-    clickedColor[1] = sf::Color(110, 230, 127, 255);    //GREEN
+    defaultColor = sf::Color(192, 192, 192, 100);       //WHITE
+    clickedColor[0] = sf::Color(230, 110, 110, 100);    //RED
+    clickedColor[1] = sf::Color(110, 230, 127, 100);    //GREEN
 
     GetPathsFromConfig(configFilePath);
-    font.loadFromFile("assets/Comfortaa-Light.ttf");
+    font.loadFromFile("assets/knowyour.ttf");
     BackgroundTexture.loadFromFile("assets/background.png");
     fillerTexture.loadFromFile("assets/fillerTiles.png");
     exportTexture.loadFromFile("assets/exportButton.png");
@@ -193,8 +193,14 @@ void Game::setText()
     nameText.setFont(font);
     nameText.setCharacterSize(50.f);
     nameText.setString("Name your Current Automap");
-    nameText.setOrigin(nameText.getGlobalBounds().width / 2, nameText.getGlobalBounds().height / 2);
-    nameText.setPosition(sf::Vector2f(videoMode.width / 2, videoMode.height / 2 - 20));
+    
+    while(nameText.getGlobalBounds().width > videoMode.width)
+    {
+        nameText.setCharacterSize(nameText.getCharacterSize() - 3);
+        nameText.setOrigin(nameText.getGlobalBounds().width / 2, nameText.getGlobalBounds().height / 2);
+        nameText.setPosition(sf::Vector2f(videoMode.width / 2, videoMode.height / 2 - 20));
+
+    }
 }
 
 void Game::setExportButton()
@@ -209,7 +215,7 @@ void Game::setExportButton()
     exportText.setString("Export");
     exportText.setCharacterSize(25.f);
     exportText.setOrigin(sf::Vector2f(exportText.getGlobalBounds().width / 2, exportText.getGlobalBounds().height / 2));
-    exportText.setPosition(sf::Vector2f(exportButton.getPosition().x, exportButton.getPosition().y - 3));
+    exportText.setPosition(sf::Vector2f(exportButton.getPosition().x, exportButton.getPosition().y - 5));
 }
 
 void Game::setBackButton()
