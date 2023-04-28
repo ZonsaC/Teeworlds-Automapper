@@ -1,1 +1,17 @@
-[]
+[<3 uwu]
+
+Index 34
+Pos -1 -1 FULL
+Pos 0 -1 FULL
+Pos -1 0 FULL
+Pos 1 0 EMPTY
+Pos 0 1 EMPTY
+Pos 1 1 EMPTY
+
+Index 34 ROTATE
+Pos 0 -1 FULL
+Pos 1 -1 FULL
+Pos -1 0 EMPTY
+Pos 1 0 FULL
+Pos -1 1 EMPTY
+Pos 0 1 EMPTY
