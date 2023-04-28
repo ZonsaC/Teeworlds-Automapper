@@ -102,7 +102,7 @@ void Game::pollEvent()
         switch(this->ev.type)
         {
             case sf::Event::Closed:
-                
+                this->window->close();
             break;
 
             case sf::Event::KeyPressed:
