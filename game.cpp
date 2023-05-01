@@ -38,7 +38,7 @@ void Game::initWindow()
     this->videoMode.height = 600;
     this->videoMode.width = 800;
 
-    this->window = new sf::RenderWindow(this->videoMode, "Window", sf::Style::Titlebar | sf::Style::Close);
+    this->window = new sf::RenderWindow(this->videoMode, "Teeworlds Automapper", sf::Style::Titlebar | sf::Style::Close);
 
     Background.setTexture(BackgroundTexture);
 }
