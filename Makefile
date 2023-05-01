@@ -6,4 +6,4 @@ compile:
 
 
 link:
-	g++ main.o game.o -o main -L src/lib -l sfml-graphics -l sfml-window -l sfml-system
+	g++ main.o game.o -o Teeworlds_Automapper -L src/lib -l sfml-graphics -l sfml-window -l sfml-system
