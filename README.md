@@ -20,5 +20,5 @@ Q       - Go back from the 3x3 tile editor
 ```
 ## Feedback
 
-If you have any feedback, or bugs feel free to contact me on Discord Camme#3886
+If you have any feedback, or bugs feel free to contact me on Discord Zonsa#1337
 
