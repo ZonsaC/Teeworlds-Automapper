@@ -4,14 +4,14 @@
 #include <utility>
 #include "game.h"
 
+std::string VERSION = "Version 1.1";
+
 std::string DDNET_PATH;
 std::string PNG_NAME;
 
 //Private functions
 void Game::initVariables() 
 {
-    version = "Version 1.1";
-
     this->window = nullptr;
     Scene = 0;
     configFilePath = "Properties.cfg";
@@ -202,7 +202,7 @@ void Game::setText()
     versionText.setFillColor(sf::Color(255,255,255,150));
     versionText.setFont(font);
     versionText.setCharacterSize(15.f);
-    versionText.setString(version);
+    versionText.setString(VERSION);
     versionText.setPosition(sf::Vector2f(5.f, videoMode.height - versionText.getCharacterSize() - 5.f));
 
     randomText.setFillColor(sf::Color::White);

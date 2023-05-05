@@ -28,7 +28,6 @@ private:
     sf::Sprite Background;
     sf::Texture BackgroundTexture;
 
-    std::string version;
     std::string userInput;
     std::string randomInput;
     sf::Text inputText;
