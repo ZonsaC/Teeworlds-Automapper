@@ -14,8 +14,6 @@ void Game::initVariables()
 
     this->window = nullptr;
     Scene = 0;
-    rClick = false;
-    lClick = false;
     configFilePath = "Properties.cfg";
 
     hoverColor = sf::Color(96, 96, 96, 150);            //GREY
@@ -149,24 +147,14 @@ void Game::pollEvent()
 
                     if(backButton.getGlobalBounds().contains(mousePosition.x, mousePosition.y)) Scene = 1;
 
-                    lClick = true;
+                    matrixLclick();
 
                 } else
                 if(ev.mouseButton.button == sf::Mouse::Right && Scene == 2)
                 {
-                    rClick = true;
+                    matrixRclick();
                 }
             break;
-
-            case sf::Event::MouseButtonReleased:
-                if (ev.mouseButton.button == sf::Mouse::Left)
-                {
-                    lClick = false;
-                    rClick = false;
-                }
-            break;
-
-
 
             case sf::Event::TextEntered:
             if (Scene == 0)
@@ -353,32 +341,6 @@ void Game::tileHoverUpdate()
     {
         if(fillerTiles[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window))))
         {
-            if(rClick)
-            {
-                if(fillerTiles[i].getFillColor() == clickedColor[0])
-                {
-                    fillerTiles[i].setFillColor(defaultColor);
-                    automap[curIndex][curRotation][i] = 0;
-                } else
-                {
-                    fillerTiles[i].setFillColor(clickedColor[0]);
-                    automap[curIndex][curRotation][i] = 1;
-                }
-            }
-
-            if(lClick)
-            {
-                if(fillerTiles[i].getFillColor() == clickedColor[1])
-                {
-                    fillerTiles[i].setFillColor(defaultColor);
-                    automap[curIndex][curRotation][i] = 0;
-                } else
-                {
-                    fillerTiles[i].setFillColor(clickedColor[1]);
-                    automap[curIndex][curRotation][i] = 2;
-                }
-            }
-
             //Hover
             if(fillerTiles[i].getFillColor() != clickedColor[0] && fillerTiles[i].getFillColor() != clickedColor[1])
                 fillerTiles[i].setFillColor(hoverColor);
@@ -389,11 +351,6 @@ void Game::tileHoverUpdate()
                 fillerTiles[i].setFillColor(defaultColor);
         }
     }
-
-
-
-    rClick = false;
-    lClick = false;
 }
 
 void Game::showCurrentAutomap()
@@ -548,6 +505,44 @@ sf::RectangleShape Game::drawTileMatrix(sf::RectangleShape rec)
         }
     }
     return rec;
+}
+
+void Game::matrixLclick()
+{
+    for(int i = 0; i < 9; i++)
+    {
+        if(fillerTiles[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window))))
+        {
+            if(fillerTiles[i].getFillColor() == clickedColor[1])
+                {
+                    fillerTiles[i].setFillColor(defaultColor);
+                    automap[curIndex][curRotation][i] = 0;
+                } else
+                {
+                    fillerTiles[i].setFillColor(clickedColor[1]);
+                    automap[curIndex][curRotation][i] = 2;
+                }
+        }
+    }
+}
+
+void Game::matrixRclick()
+{
+    for(int i = 0; i < 9; i++)
+    {
+        if(fillerTiles[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window))))
+        {
+            if(fillerTiles[i].getFillColor() == clickedColor[0])
+            {
+                fillerTiles[i].setFillColor(defaultColor);
+                automap[curIndex][curRotation][i] = 0;
+            } else
+            {
+                fillerTiles[i].setFillColor(clickedColor[0]);
+                automap[curIndex][curRotation][i] = 1;
+            }
+        }
+    }
 }
 
 void Game::textUpdate()

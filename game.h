@@ -18,7 +18,6 @@ private:
     //Variables
     int Scene;
     float scale;
-    bool lClick, rClick;
     bool IndexWritten;
 
     //Window
@@ -90,6 +89,8 @@ public:
     void setBackButton();
     void textUpdate();
     sf::RectangleShape drawTileMatrix(sf::RectangleShape);
+    void matrixRclick();
+    void matrixLclick();
     void getTileset();
     void checkTilesetClicked();
     void tiledImage();
