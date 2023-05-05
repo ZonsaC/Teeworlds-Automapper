@@ -1,6 +1,6 @@
 # Teeworlds Automap Tool
 
-A simple program to simplify the creation of .rules files.
+A simple program to simplify the creation of .rules files. Once exported the code for the .rules can be found in Output.txt.
 
 
 ## Setup
