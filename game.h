@@ -29,9 +29,13 @@ private:
     sf::Sprite Background;
     sf::Texture BackgroundTexture;
 
+    std::string version;
     std::string userInput;
+    std::string randomInput;
     sf::Text inputText;
     sf::Text nameText;
+    sf::Text versionText;
+    sf::Text randomText;
     sf::Font font;
 
     sf::Sprite Tileset;
@@ -63,6 +67,7 @@ private:
     int curIndex;
     int curRotation;
     int automap[256][4][9];
+    int automapRandom[256][4];
 
     std::string configFilePath;
 

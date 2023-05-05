@@ -10,6 +10,8 @@ std::string PNG_NAME;
 //Private functions
 void Game::initVariables() 
 {
+    version = "Version 1.1";
+
     this->window = nullptr;
     Scene = 0;
     rClick = false;
@@ -29,8 +31,11 @@ void Game::initVariables()
 
     for(int i = 0; i < 256; i++)
         for(int x = 0; x < 4; x++)
+        {
+            automapRandom[i][x] = 0;
             for(int j = 0; j < 9; j++)
                 automap[i][x][j] = 0;
+        }
 }
 
 void Game::initWindow() 
@@ -134,6 +139,9 @@ void Game::pollEvent()
                         if(rotatedTile[i].getGlobalBounds().contains(mousePosition.x, mousePosition.y))
                         {
                             curRotation = i;
+                            randomInput = std::to_string(automapRandom[curIndex][curRotation]);
+                            randomText.setString("Random: " + std::to_string(automapRandom[curIndex][curRotation]));
+                            
                             curTile = drawTileMatrix(rotatedTile[i]);
                         }
                     }
@@ -168,14 +176,32 @@ void Game::pollEvent()
                     if (!userInput.empty())
                     {
                         userInput.pop_back(); // remove last character
-                        inputText.setString(userInput);
                     }
                 }
                 else if (ev.text.unicode < 128) // only add ASCII characters
                 {
                     userInput += static_cast<char>(ev.text.unicode);
-                    inputText.setString(userInput);
                 }
+
+                inputText.setString(userInput);
+            }
+
+            if(Scene == 2)
+            {
+                if (ev.text.unicode == 8) // ASCII code for backspace
+                {
+                    if (!randomInput.empty())
+                    {
+                        randomInput.pop_back(); // remove last character
+                        automapRandom[curIndex][curRotation] = atoi(randomInput.c_str());
+                    }
+                } else if (ev.text.unicode > 47 && ev.text.unicode < 58) // only add ASCII characters
+                {
+                    randomInput += static_cast<char>(ev.text.unicode);
+                    automapRandom[curIndex][curRotation] = atoi(randomInput.c_str());
+                }
+
+                randomText.setString("Random: " + std::to_string(automapRandom[curIndex][curRotation]));
             }
             break;
         }
@@ -185,6 +211,17 @@ void Game::pollEvent()
 
 void Game::setText()
 {
+    versionText.setFillColor(sf::Color(255,255,255,150));
+    versionText.setFont(font);
+    versionText.setCharacterSize(15.f);
+    versionText.setString(version);
+    versionText.setPosition(sf::Vector2f(5.f, videoMode.height - versionText.getCharacterSize() - 5.f));
+
+    randomText.setFillColor(sf::Color::White);
+    randomText.setFont(font);
+    randomText.setCharacterSize(20.f);
+    randomText.setString("Random: ");
+
     inputText.setFillColor(sf::Color::White);
     inputText.setFont(font);
     inputText.setCharacterSize(40.f);
@@ -281,6 +318,8 @@ void Game::checkTilesetClicked()
         clickedTile = tiles[i];
         curIndex = i;
         curRotation = 0;
+        randomInput = std::to_string(automapRandom[curIndex][curRotation]);
+        randomText.setString("Random: " + std::to_string(automapRandom[curIndex][curRotation]));
         tiledImage(); 
         break;
     }
@@ -419,6 +458,12 @@ void Game::exportAutomap()
                         break;
                     }
                 }
+
+                if(automapRandom[i][x] != 0 && IndexWritten)
+                {
+                    file_out << "Random " + std::to_string(automapRandom[i][x]) + "\n";
+                }
+
             }
         }
     }
@@ -427,7 +472,7 @@ void Game::exportAutomap()
 std::string Game::getExportString(int i, int x, int j, std::string Pos)
 {
     std::string output;
-    if(automap[i][x][j] != 0)
+    if(automap[i][x][j] != 0 || automapRandom[i][x] != 0)
     {
         if(!IndexWritten)
         { 
@@ -447,7 +492,8 @@ std::string Game::getExportString(int i, int x, int j, std::string Pos)
             output += "\n";
             IndexWritten = true; 
         }
-        output += Pos;
+        if(automap[i][x][j] != 0)
+            output += Pos;
     }
     switch(automap[i][x][j])
     {
@@ -458,6 +504,7 @@ std::string Game::getExportString(int i, int x, int j, std::string Pos)
         output += " FULL\n";
         break;
     }
+
     return output;
 }
 
@@ -512,6 +559,9 @@ void Game::textUpdate()
     {
         inputText.setCharacterSize(inputText.getCharacterSize() - 1);
     }
+
+    randomText.setOrigin(randomText.getGlobalBounds().width / 2, randomText.getGlobalBounds().height / 2);
+    randomText.setPosition(sf::Vector2f(videoMode.width / 2, videoMode.height - 50));
     
 }
 
@@ -519,8 +569,8 @@ void Game::update()
 {
     if(Scene == 2)
         tileHoverUpdate();
-    if(Scene == 0)
-        textUpdate();
+
+    textUpdate();
     //Event polling
     this->pollEvent();
 }
@@ -539,6 +589,7 @@ void Game::render()
     this->window->clear(sf::Color(255, 0, 0, 255));
 
     window->draw(Background);
+    window->draw(versionText);
     //Full Tileset
     switch(Scene){
         case 0: // Start Screen
@@ -554,6 +605,7 @@ void Game::render()
             window->draw(curTile);
             window->draw(backButton);
             window->draw(backText);
+            window->draw(randomText);
 
             for(sf::RectangleShape rec : fillerTiles)
                 window->draw(rec);
